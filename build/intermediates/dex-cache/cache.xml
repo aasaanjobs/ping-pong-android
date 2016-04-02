@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/classes-dfcc786af15fff745150cc15335837f180ffccae.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/Documents/AndroidStudio/android-studio/bin/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/okio-1.6.0-98ce2bd3c3863988f6796bce56178771e13f8aa1.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/Documents/AndroidStudio/android-studio/bin/caches/modules-2/files-2.1/io.socket/socket.io-client/0.7.0/ce278c97bc9f74c7945d647f6d441d6013163362/socket.io-client-0.7.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ce278c97bc9f74c7945d647f6d441d6013163362">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/socket.io-client-0.7.0-2133349a5b4b6eb461604afa1db45aeeb1f6cb8a.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/classes-e86967fa21fde7b3171bec779960608f064b6789.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/Documents/AndroidStudio/android-studio/bin/caches/modules-2/files-2.1/io.socket/engine.io-client/0.7.0/c1b1d30e2d2231b2eae1438a44943a409b976dac/engine.io-client-0.7.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c1b1d30e2d2231b2eae1438a44943a409b976dac">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/engine.io-client-0.7.0-338563aad88de7f5a83b1f6e8c9ed540f27d2115.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/Documents/AndroidStudio/android-studio/bin/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.0.1/bd9b51a0188fc8f14bf840a0d326755545206116/okhttp-ws-3.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="bd9b51a0188fc8f14bf840a0d326755545206116">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/okhttp-ws-3.0.1-44d0eedcc0423c98910b4b14c0d1e09009cf6d5a.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-3ea9ad781cb93f386f5733609d87056ebe8a0caf.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/Documents/AndroidStudio/android-studio/bin/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.0.1/b34c1f2d993044656e87f88970b6818e99e886ba/okhttp-3.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b34c1f2d993044656e87f88970b6818e99e886ba">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/okhttp-3.0.1-30ec611ba4f5eded68e29672793586ffe40734d4.jar" />
+    </item>
+    <item
+        jar="/home/ankitamaske/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/home/ankitamaske/realm-java/examples/Socket/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-c0082bafe0245ae2aaa08884d00e722da806d3e7.jar" />
+    </item>
+
+</items>
