@@ -19,11 +19,9 @@ import io.socket.emitter.Emitter;
 
 
 public class MainActivity extends ActionBarActivity implements SensorEventListener{
-    private static final float MINIMUM_ACCELERATION_CHANGE = 1f;
-    private static final int MAX_VALUES_COLLECTED = 100;
-    private float x = 0;
-    private float Vx = 0;
-    private int damperCounter = 0;
+    private static final float MINIMUM_ACCELERATION_CHANGE = .15f;
+    private static final float MAX_ALLOWED_DEACCELERATION = .4f;
+
     private io.socket.client.Socket socket;
     private Emitter.Listener onConnected =   new Emitter.Listener() {
 
@@ -62,9 +60,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private float[] acceleration;
-    private long t=0;
-    private float accumulatedAcceleration=0;
-
+    private long lastUpdated =0;
+    private long lastUpdatedGlobal = System.currentTimeMillis();
+    private float Vx=0;
+    private float Vy=0;
+    private float Vz=0;
+    private float accelerationThreshold= 0.15f;
+    float x = 0;
+    private float MAX_ALLOWED_ACCELERATION= 5f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     protected void onResume() {
         super.onResume();
         setupSocket();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -99,19 +102,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
     private void setupSocket() {
         SocketApplication application = (SocketApplication) getApplication();
-
-
-            socket = application.getSocket();
-            socket.on(io.socket.client.Socket.EVENT_CONNECT, onConnected);
+        socket = application.getSocket();
+        socket.on(io.socket.client.Socket.EVENT_CONNECT, onConnected);
         socket.on(io.socket.client.Socket.EVENT_CONNECT_ERROR,onError);
         socket.on(io.socket.client.Socket.EVENT_ERROR,onError);
         socket.on(io.socket.client.Socket.EVENT_RECONNECT_ERROR,onError);
-            socket.on("chat message",onNewMessage);
-
-            socket.connect();
-
-
-
+        socket.on("chat message",onNewMessage);
+        socket.connect();
     }
 
     private void updateUI(final String message) {
@@ -150,38 +147,55 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        //if(changed(acceleration, sensorEvent.values)) {
-        acceleration = sensorEvent.values;
-        accumulatedAcceleration +=sensorEvent.values[0];
-        damperCounter++;
-        if(damperCounter>=MAX_VALUES_COLLECTED){
-            acceleration[0] = accumulatedAcceleration/damperCounter;
-            Vx = Vx+acceleration[0];
-            if(t==0){
-                t = System.currentTimeMillis();
-            }
-            float dt = (System.currentTimeMillis()-t)/1000f;
-            t = System.currentTimeMillis();
-            x = x+Vx*dt;
-            if((x<=-100 && Vx<0) || (x>=100 && Vx>0)){
-                Vx=0;
+        Sensor sensor = sensorEvent.sensor;
+        updateAccelerationValues(acceleration);
+        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION){
+                acceleration = sensorEvent.values;
 
+            //MAX ALLOWED ACCELERATION
+            if(Math.abs(acceleration[0])>MAX_ALLOWED_ACCELERATION){
+                acceleration[0] = MAX_ALLOWED_ACCELERATION *(Math.abs(acceleration[0])/acceleration[0]);
             }
 
-            updateAccelerationValues(acceleration);
-            publishEvent(acceleration);
-            damperCounter = 0;
+                if((Math.abs(acceleration[0])> MAX_ALLOWED_DEACCELERATION) && (acceleration[0]*Vx<0)){
+                    //acceleration[0] = MAX_ALLOWED_DEACCELERATION*((Math.abs(acceleration[0])/acceleration[0]));
+                    Vx = 0;
+                    acceleration[0] = 0;
+                }
 
-        }
+               else if (Math.abs( acceleration[0]) > MINIMUM_ACCELERATION_CHANGE) {
+                    float dt = (System.currentTimeMillis() - lastUpdatedGlobal) / 1000f;
+                    lastUpdatedGlobal = System.currentTimeMillis();
+                    Vx = Vx + acceleration[0] * dt;
+                    Vy = Vy + acceleration[1] * dt;
+                    Vz = Vz + acceleration[2] * dt;
+                    x = x+Vx*dt;
 
-                //}
 
+//                    double vel = Math.sqrt(Vx * Vx + Vy * Vy + Vz * Vz);
+//                    if ((vel > 0.1d) && ((System.currentTimeMillis() - lastUpdated) >= 500)) {
+//                        acceleration[0] = (float) vel;
+//                        //updateAccelerationValues(acceleration);
+//                        lastUpdated = System.currentTimeMillis();
+                    if(Math.abs(Vx)>1f) {
+                        publishEvent(acceleration);
+                    }
+//                    }
+                }else {
+                    Vx = 0f;
+                    Vy = 0f;
+                    Vz = 0f;
+                    publishEvent(acceleration);
+
+                }
+
+            }
     }
 
     private void publishEvent(float[] acceleration) {
         JSONObject j = new JSONObject();
         try {
-            j.put("x",x);
+            j.put("x",Vx);
             j.put("y",acceleration[1]);
             j.put("z",acceleration[2]);
             socket.emit("acceleration",j);
@@ -205,10 +219,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     }
 
     private void updateAccelerationValues(float[] acceleration) {
-        TextView textView = (TextView) findViewById(R.id.tv_acceleration);
+        if(acceleration!=null) {
+            TextView textView = (TextView) findViewById(R.id.tv_acceleration);
 
-        String display = "x: "+x+ " y:"+acceleration[1]+ " z:"+acceleration[2];
-        textView.setText(display);
+            String display = /*"Ax: " + acceleration[0] + " Vx:" + Vx + */" x:" + x;
+            textView.setText(display);
+        }
     }
 
     @Override
